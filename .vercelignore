@@ -1,0 +1,57 @@
+# Dependencies
+node_modules
+
+# Testing
+coverage
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+__tests__
+tests
+test-results
+playwright-report
+
+# Local database files
+*.db
+*.db-shm
+*.db-wal
+asof_database.db
+
+# Environment files
+.env
+.env.local
+.env.development
+.env.test
+
+# Documentation
+docs
+*.md
+!README.md
+
+# Editor files
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+.next
+out
+dist
+build
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Local storage directory (files uploaded during development)
+public/storage

@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { 
-  noticiasDb, 
-  eventsDb, 
-  bannersDb, 
+import {
+  noticiasDb,
+  eventosDb,
+  bannersDb,
   filiacoesDb,
   pagesDb,
   documentsDb,
@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
   try {
     // Obter estatísticas de diferentes entidades
     const noticias = noticiasDb.findAll();
-    const eventos = eventsDb.findAll();
+    const eventos = eventosDb.findAll();
     const banners = bannersDb.findAll();
     const filiacoes = filiacoesDb.findAll();
     
@@ -100,7 +100,7 @@ export async function detailedGET(request: NextRequest) {
     
     // Obter todas as entidades
     const noticias = noticiasDb.findAll();
-    const eventos = eventsDb.findAll();
+    const eventos = eventosDb.findAll();
     const banners = bannersDb.findAll();
     const filiacoes = filiacoesDb.findAll();
     
