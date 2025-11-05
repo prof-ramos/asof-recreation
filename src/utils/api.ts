@@ -1,4 +1,4 @@
-import { Noticia, Evento, Banner, Foto, Pagina, Publicacao, Video, Filiacao, DashboardStats, CmsUser, NewsletterData } from '@/types';
+import { Noticia, Evento, Banner, Foto, Pagina, Publicacao, Video, Filiacao, DashboardStats, CmsUser, NewsletterData, Categoria } from '@/types';
 
 const mockEventos: Evento[] = [
   {
@@ -8,7 +8,10 @@ const mockEventos: Evento[] = [
     descricao: 'Evento sobre previdência sustentável para RPPS municipais',
     data: '22/08/2023',
     local: 'Brasília',
-    status: 'ativo'
+    status: 'ativo',
+    createdAt: '2024-01-01T00:00:00.000Z',
+    updatedAt: '2024-01-01T00:00:00.000Z',
+    version: 1
   }
 ];
 
@@ -26,7 +29,10 @@ const mockBanners: Banner[] = [
     status: 1,
     user_id: 1,
     type: 'Super Banners',
-    clicks: 0
+    clicks: 0,
+    createdAt: '2024-06-29T12:47:00.000Z',
+    updatedAt: '2024-06-29T12:47:00.000Z',
+    version: 1
   }
 ];
 
@@ -36,7 +42,10 @@ const mockFotos: Foto[] = [
     album_id: 74,
     flickr_photo_id: '53134215517',
     title: '22/08/2023 - Seminário Técnico',
-    url: 'https://farm66.staticflickr.com/65535/53134215517_8231b05ea6.jpg'
+    url: 'https://farm66.staticflickr.com/65535/53134215517_8231b05ea6.jpg',
+    createdAt: '2023-08-22T00:00:00.000Z',
+    updatedAt: '2023-08-22T00:00:00.000Z',
+    version: 1
   }
 ];
 
@@ -190,18 +199,18 @@ export async function fetchEventosPaginados(page: number = 1, limit: number = 10
 }
 
 // Função para criar evento
-export async function createEvento(evento: Omit<Evento, 'id'>, imagemFile?: File): Promise<Evento | null> {
+export async function createEvento(evento: Partial<Omit<Evento, 'id' | 'uuid' | 'createdAt' | 'updatedAt' | 'version'>>, imagemFile?: File): Promise<Evento | null> {
   try {
     let response;
     
     if (imagemFile) {
       // Enviar como multipart/form-data se houver imagem
       const formData = new FormData();
-      formData.append('titulo', evento.titulo);
-      formData.append('descricao', evento.descricao);
-      formData.append('data', evento.data);
+      if (evento.titulo) formData.append('titulo', evento.titulo);
+      if (evento.descricao) formData.append('descricao', evento.descricao);
+      if (evento.data) formData.append('data', evento.data);
       if (evento.local) formData.append('local', evento.local);
-      formData.append('status', evento.status);
+      if (evento.status) formData.append('status', evento.status);
       formData.append('imagem', imagemFile);
       
       response = await fetch('/api/eventos', {

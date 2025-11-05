@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { filiacoesDb } from '@/lib/database'
 import { Filiacao } from '@/types'
+import { randomUUID } from 'crypto'
 
 // GET /api/filiacoes - Listar todas as filiações
 export async function GET(request: NextRequest) {
@@ -73,14 +74,18 @@ export async function POST(request: NextRequest) {
       }
       
       // Criar a filiação
+      const now = new Date().toISOString();
       const novaFiliacao = filiacoesDb.create({
         nome,
         email,
         telefone,
-        data_solicitacao: new Date().toISOString(),
+        data_solicitacao: now,
         status: 'pendente',
         documentos,
         observacoes: observacoes || undefined,
+        createdAt: now,
+        updatedAt: now,
+        version: 1,
       });
 
       return NextResponse.json(novaFiliacao, { status: 201 });
@@ -97,14 +102,18 @@ export async function POST(request: NextRequest) {
         );
       }
 
+      const now = new Date().toISOString();
       const novaFiliacao = filiacoesDb.create({
         nome,
         email,
         telefone,
-        data_solicitacao: new Date().toISOString(),
+        data_solicitacao: now,
         status: 'pendente',
         documentos: documentos || [],
         observacoes: observacoes,
+        createdAt: now,
+        updatedAt: now,
+        version: 1,
       });
 
       return NextResponse.json(novaFiliacao, { status: 201 });

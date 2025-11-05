@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { eventosDb } from '@/lib/database';
 import { Evento } from '@/types';
+import { randomUUID } from 'crypto';
 
 // Interface para a resposta da API de eventos
 interface EventosResponse {
@@ -104,13 +105,18 @@ export async function POST(request: NextRequest) {
         imagemPath = `/uploads/eventos/${filename}`;
       }
 
+      const now = new Date().toISOString();
       const novoEvento = eventosDb.create({
+        uuid: randomUUID(),
         titulo,
         descricao,
         data,
         local: local || undefined,
         status: (status as 'ativo' | 'inativo') || 'ativo',
         imagem: imagemPath || undefined,
+        createdAt: now,
+        updatedAt: now,
+        version: 1,
       });
 
       return NextResponse.json(novoEvento, { status: 201 });
@@ -127,13 +133,18 @@ export async function POST(request: NextRequest) {
         );
       }
 
+      const now = new Date().toISOString();
       const novoEvento = eventosDb.create({
+        uuid: randomUUID(),
         titulo,
         descricao,
         data,
         local,
         status: status || 'ativo',
         imagem,
+        createdAt: now,
+        updatedAt: now,
+        version: 1,
       });
 
       return NextResponse.json(novoEvento, { status: 201 });

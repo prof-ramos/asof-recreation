@@ -58,13 +58,13 @@ class JSONDatabase<T extends { id: number }> implements DatabaseRepository<T> {
 
   async create(item: Omit<T, 'id'>): Promise<T> {
     const newId = this.data.length > 0 ? Math.max(...this.data.map(d => d.id)) + 1 : 1;
-    const newItem = { 
-      ...item, 
+    const newItem = {
+      ...item,
       id: newId,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       version: 1
-    } as T;
+    } as unknown as T;
     
     this.data.push(newItem);
     this.saveData();

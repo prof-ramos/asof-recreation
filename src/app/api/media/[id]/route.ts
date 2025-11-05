@@ -6,10 +6,11 @@ import path from 'path';
 // GET /api/media/[id] - Buscar arquivo de mídia específico
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = parseInt(params.id);
+    const { id: idStr } = await params;
+    const id = parseInt(idStr);
     if (isNaN(id)) {
       return NextResponse.json(
         { error: 'ID inválido' },
@@ -38,10 +39,11 @@ export async function GET(
 // DELETE /api/media/[id] - Excluir arquivo de mídia
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = parseInt(params.id);
+    const { id: idStr } = await params;
+    const id = parseInt(idStr);
     if (isNaN(id)) {
       return NextResponse.json(
         { error: 'ID inválido' },

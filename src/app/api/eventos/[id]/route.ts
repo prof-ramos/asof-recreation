@@ -4,10 +4,11 @@ import { eventosDb } from '@/lib/database';
 // GET /api/eventos/[id] - Buscar evento específico
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = parseInt(params.id);
+    const { id: idStr } = await params;
+    const id = parseInt(idStr);
     if (isNaN(id)) {
       return NextResponse.json(
         { error: 'ID inválido' },
@@ -36,10 +37,11 @@ export async function GET(
 // PUT /api/eventos/[id] - Atualizar evento
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = parseInt(params.id);
+    const { id: idStr } = await params;
+    const id = parseInt(idStr);
     if (isNaN(id)) {
       return NextResponse.json(
         { error: 'ID inválido' },
@@ -113,10 +115,11 @@ export async function PUT(
 // DELETE /api/eventos/[id] - Excluir evento
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = parseInt(params.id);
+    const { id: idStr } = await params;
+    const id = parseInt(idStr);
     if (isNaN(id)) {
       return NextResponse.json(
         { error: 'ID inválido' },
