@@ -4,10 +4,11 @@ import { filiacoesDb } from '@/lib/database';
 // POST /api/filiacoes/[id]/approve - Aprovar filiação
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = parseInt(params.id);
+    const { id: idStr } = await params;
+    const id = parseInt(idStr);
     if (isNaN(id)) {
       return NextResponse.json(
         { error: 'ID inválido' },

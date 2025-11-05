@@ -120,7 +120,7 @@ export default function EventosPage() {
         data: data.data,
         local: data.local,
         status: data.status
-      }, imagemToCreate); // Passar a imagem se existir
+      }, imagemToCreate || undefined); // Passar a imagem se existir
 
       if (novoEvento) {
         setEventos([...eventos, novoEvento]);
@@ -146,7 +146,7 @@ export default function EventosPage() {
         data: data.data,
         local: data.local,
         status: data.status
-      }, imagemToEdit); // Passar a imagem se existir
+      }, imagemToEdit || undefined); // Passar a imagem se existir
 
       if (eventoAtualizado) {
         setEventos(eventos.map(e => e.id === eventoToEdit.id ? eventoAtualizado : e));
@@ -260,10 +260,6 @@ export default function EventosPage() {
                           {evento.local}
                         </div>
                       )}
-                      <div className="flex items-center gap-1">
-                        <Users className="w-4 h-4" />
-                        {evento.inscritos || 0} inscritos
-                      </div>
                     </div>
                     <Badge variant={evento.status === "ativo" ? "default" : "secondary"}>
                       {evento.status}

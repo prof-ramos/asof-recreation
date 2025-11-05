@@ -21,11 +21,15 @@ import {
 // Caminho para o banco de dados SQLite
 const DB_PATH = process.env.DATABASE_URL || './asof_database.db';
 
-// Conectar ao banco de dados
-const db = new Database(DB_PATH);
+// Conectar ao banco de dados (apenas em runtime, não durante build)
+const db = typeof window === 'undefined' && !process.env.NEXT_PHASE
+  ? new Database(DB_PATH, { readonly: false, fileMustExist: false })
+  : null as any;
 
-// Habilitar modo WAL para melhor concorrência
-db.pragma('journal_mode = WAL');
+// Habilitar modo WAL para melhor concorrência (apenas se db existe)
+if (db) {
+  db.pragma('journal_mode = WAL');
+}
 
 // Classe base para operações CRUD com SQLite
 class SQLiteDatabase<T extends { id: number }> {
@@ -35,7 +39,9 @@ class SQLiteDatabase<T extends { id: number }> {
   constructor(tableName: string) {
     this.tableName = tableName;
     this.db = db;
-    this.createTableIfNotExists();
+    if (this.db) {
+      this.createTableIfNotExists();
+    }
   }
 
   protected createTableIfNotExists() {
@@ -144,6 +150,10 @@ class SQLiteDatabase<T extends { id: number }> {
 // Implementações específicas para cada entidade
 
 class NoticiasDatabase extends SQLiteDatabase<Noticia> {
+  constructor() {
+    super('noticias');
+  }
+
   protected createTableIfNotExists() {
     this.db.exec(`
       CREATE TABLE IF NOT EXISTS noticias (
@@ -162,6 +172,10 @@ class NoticiasDatabase extends SQLiteDatabase<Noticia> {
 }
 
 class EventosDatabase extends SQLiteDatabase<Evento> {
+  constructor() {
+    super('eventos');
+  }
+
   protected createTableIfNotExists() {
     this.db.exec(`
       CREATE TABLE IF NOT EXISTS eventos (
@@ -183,6 +197,10 @@ class EventosDatabase extends SQLiteDatabase<Evento> {
 }
 
 class FiliacoesDatabase extends SQLiteDatabase<Filiacao> {
+  constructor() {
+    super('filiacoes');
+  }
+
   protected createTableIfNotExists() {
     this.db.exec(`
       CREATE TABLE IF NOT EXISTS filiacoes (
@@ -203,6 +221,10 @@ class FiliacoesDatabase extends SQLiteDatabase<Filiacao> {
 }
 
 class BannersDatabase extends SQLiteDatabase<Banner> {
+  constructor() {
+    super('banners');
+  }
+
   protected createTableIfNotExists() {
     this.db.exec(`
       CREATE TABLE IF NOT EXISTS banners (
@@ -230,6 +252,10 @@ class BannersDatabase extends SQLiteDatabase<Banner> {
 }
 
 class CategoriasDatabase extends SQLiteDatabase<Categoria> {
+  constructor() {
+    super('categorias');
+  }
+
   protected createTableIfNotExists() {
     this.db.exec(`
       CREATE TABLE IF NOT EXISTS categorias (
@@ -256,6 +282,10 @@ class CategoriasDatabase extends SQLiteDatabase<Categoria> {
 }
 
 class PaginasDatabase extends SQLiteDatabase<Pagina> {
+  constructor() {
+    super('paginas');
+  }
+
   protected createTableIfNotExists() {
     this.db.exec(`
       CREATE TABLE IF NOT EXISTS paginas (
@@ -277,6 +307,10 @@ class PaginasDatabase extends SQLiteDatabase<Pagina> {
 }
 
 class PublicacoesDatabase extends SQLiteDatabase<Publicacao> {
+  constructor() {
+    super('publicacoes');
+  }
+
   protected createTableIfNotExists() {
     this.db.exec(`
       CREATE TABLE IF NOT EXISTS publicacoes (
@@ -300,6 +334,10 @@ class PublicacoesDatabase extends SQLiteDatabase<Publicacao> {
 }
 
 class VideosDatabase extends SQLiteDatabase<Video> {
+  constructor() {
+    super('videos');
+  }
+
   protected createTableIfNotExists() {
     this.db.exec(`
       CREATE TABLE IF NOT EXISTS videos (
@@ -321,6 +359,10 @@ class VideosDatabase extends SQLiteDatabase<Video> {
 }
 
 class UsuariosDatabase extends SQLiteDatabase<CmsUser> {
+  constructor() {
+    super('usuarios');
+  }
+
   protected createTableIfNotExists() {
     this.db.exec(`
       CREATE TABLE IF NOT EXISTS usuarios (
@@ -340,6 +382,10 @@ class UsuariosDatabase extends SQLiteDatabase<CmsUser> {
 }
 
 class MediaDatabase extends SQLiteDatabase<Media> {
+  constructor() {
+    super('media');
+  }
+
   protected createTableIfNotExists() {
     this.db.exec(`
       CREATE TABLE IF NOT EXISTS media (

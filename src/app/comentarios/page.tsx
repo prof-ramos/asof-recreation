@@ -18,7 +18,7 @@ export default function ComentariosPage() {
     }
 
     const sql = neon(connectionString)
-    await sql('INSERT INTO comments (comment) VALUES ($1)', [comment])
+    await sql`INSERT INTO comments (comment) VALUES (${comment})`
 
     revalidatePath('/comentarios')
   }

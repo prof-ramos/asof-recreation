@@ -125,10 +125,6 @@ export async function detailedGET(request: NextRequest) {
       },
       noticias: {
         total: filteredNoticias.length,
-        byStatus: {
-          ativo: filteredNoticias.filter(n => n.status === 'ativo').length,
-          inativo: filteredNoticias.filter(n => n.status === 'inativo').length,
-        }
       },
       eventos: {
         total: filteredEventos.length,

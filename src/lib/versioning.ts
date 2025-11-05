@@ -115,5 +115,6 @@ export const paginasVersionManager = new VersionManager<Pagina>('paginas');
 export const publicacoesVersionManager = new VersionManager<Publicacao>('publicacoes');
 export const videosVersionManager = new VersionManager<Video>('videos');
 export const cmsUsersVersionManager = new VersionManager<CmsUser>('cms_users');
-export const newslettersVersionManager = new VersionManager<NewsletterData>('newsletters');
-export const mediaVersionManager = new VersionManager<Media>('media');
+// Temporarily commented out due to missing 'id' field requirement
+// export const newslettersVersionManager = new VersionManager<NewsletterData>('newsletters');
+// export const mediaVersionManager = new VersionManager<Media>('media');

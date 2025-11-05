@@ -18,7 +18,7 @@ export default function FilieSePage() {
   const [telefone, setTelefone] = useState("");
   const [documentoPessoal, setDocumentoPessoal] = useState<File | null>(null);
   const [comprovanteEndereco, setComprovanteEndereco] = useState<File | null>(null);
-  [documentosAdicionais, setDocumentosAdicionais] = useState<File[]>([]);
+  const [documentosAdicionais, setDocumentosAdicionais] = useState<File[]>([]);
   
   // Estados para feedback
   const [isSubmitting, setIsSubmitting] = useState(false);

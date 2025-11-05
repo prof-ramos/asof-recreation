@@ -25,7 +25,7 @@ export default function Home() {
           fetchBanners(),
           fetchFotos()
         ]);
-        setNoticias(noticiasData);
+        setNoticias(noticiasData.data);
         setBanners(bannersData);
         setFotos(fotosData);
       } catch (error) {

@@ -4,10 +4,11 @@ import { filiacoesDb } from '@/lib/database'
 // GET /api/filiacoes/[id] - Buscar filiação específica
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = parseInt(params.id)
+    const { id: idStr } = await params
+    const id = parseInt(idStr)
     if (isNaN(id)) {
       return NextResponse.json(
         { error: 'ID inválido' },
@@ -36,10 +37,11 @@ export async function GET(
 // PUT /api/filiacoes/[id] - Atualizar filiação
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = parseInt(params.id)
+    const { id: idStr } = await params
+    const id = parseInt(idStr)
     if (isNaN(id)) {
       return NextResponse.json(
         { error: 'ID inválido' },
@@ -70,10 +72,11 @@ export async function PUT(
 // DELETE /api/filiacoes/[id] - Excluir filiação
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = parseInt(params.id)
+    const { id: idStr } = await params
+    const id = parseInt(idStr)
     if (isNaN(id)) {
       return NextResponse.json(
         { error: 'ID inválido' },
@@ -102,10 +105,11 @@ export async function DELETE(
 // POST /api/filiacoes/[id]/approve - Aprovar filiação
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = parseInt(params.id)
+    const { id: idStr } = await params
+    const id = parseInt(idStr)
     if (isNaN(id)) {
       return NextResponse.json(
         { error: 'ID inválido' },
